@@ -1,0 +1,31 @@
+services:
+  sqlite:
+    image: alpine:latest
+    container_name: ${PROJECT_NAME}-sqlite-db
+    volumes:
+      - ../../data:/data              # Accès au dossier data du projet
+      - ./${SQLITE_VOLUME}:/db             # Base de données locale au docker
+    working_dir: /data
+    command: sh -c "apk add --no-cache sqlite && tail -f /dev/null"
+    networks:
+      - default
+    
+  sqlite-web:
+    image: coleifer/sqlite-web
+    container_name: ${PROJECT_NAME}-${SQLITE_DBNAME}-webui
+    volumes:
+      - ./${SQLITE_VOLUME}:/data
+    ports:
+      - "${SQLITE_CONTPORT}:${SQLITE_HOSTPORT}"
+    command: sqlite_web -H 0.0.0.0 -p 8080 /data/database.db
+    networks:
+      - default
+
+networks:
+  default:
+    external: true
+    name: ${PROJECT_NAME}-docker-network
+
+volumes:
+  sqlite_data:
+    driver: local
