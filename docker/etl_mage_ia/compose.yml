@@ -1,0 +1,25 @@
+services:
+  data_workflow:
+    image: mageai/mageai:latest
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-mageai
+    environment:
+      DATABASE_URL: sqlite:////shared_data/database.db
+      ENV: ${ENV}
+    ports:
+      - "${MAGEAI_HOSTPORT}:${MAGEAI_CONTPORT}"
+    volumes:
+      - .:/app
+      - ../db_sqlite/sqlite_data:/shared_data    # Volume partagé avec la base SQLite
+      - ../../data:/project_data                 # Accès aux données du projet
+    networks:
+     - default
+
+networks:
+  default:
+    external: true
+    name: ${PROJECT_NAME}-docker-network
