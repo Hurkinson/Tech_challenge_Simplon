@@ -6,9 +6,6 @@ sqlite_data/
 .ssh_tunnel/
 .file_versions/
 
-
-
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
