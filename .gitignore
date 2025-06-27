@@ -1,9 +1,10 @@
 #custom
 
-.file_versions/
-.ssh_tunnel/
+#db_sqlite
 sqlite_data/
-
+#mageAi
+.ssh_tunnel/
+.file_versions/
 
 
 # Byte-compiled / optimized / DLL files
